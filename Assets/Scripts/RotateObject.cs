@@ -7,6 +7,7 @@ public class RotateObject : MonoBehaviour
 
     private GameObject objectToRotate;
     private Canvas infoCanvas;
+    private AudioSource audioSource;
 
     private void Update()
     {
@@ -28,6 +29,11 @@ public class RotateObject : MonoBehaviour
         infoCanvas.enabled = !infoCanvas.enabled;
     }
 
+    public void PlayAudio()
+    {
+        audioSource.Play();
+    }
+
     public void LookForObject()
     {
         if (objectToRotate != null)
@@ -40,6 +46,7 @@ public class RotateObject : MonoBehaviour
         if (objectToRotate != null)
         {
             infoCanvas = objectToRotate.GetComponentInChildren<Canvas>();
+            audioSource = objectToRotate.GetComponentInChildren<AudioSource>();
         }
     }
 }
