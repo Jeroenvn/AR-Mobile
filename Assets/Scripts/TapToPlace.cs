@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.XR.ARFoundation;
@@ -8,7 +9,9 @@ using UnityEngine.XR.ARSubsystems;
 
 public class TapToPlace : MonoBehaviour
 {
+    [SerializeField] private GameObject prefab;
     [SerializeField] private ARRaycastManager raycastManager;
+    [SerializeField] private ARPlaneManager planeManager;
     private TouchControlsClass playerInput;
     
     private void Start()
@@ -36,7 +39,10 @@ public class TapToPlace : MonoBehaviour
         TrackableType trackableType = TrackableType.PlaneWithinPolygon;
         if (raycastManager.Raycast(touchPosition, hit, trackableType))
         {
-            Debug.Log("Hit plane");
+            Instantiate(prefab, hit[0].pose.position, Quaternion.identity);
+            playerInput.FindAction("Touch").performed -= OnTouch;
+            planeManager.SetTrackablesActive(false);
+            planeManager.enabled = false;
         }
     }
 }
