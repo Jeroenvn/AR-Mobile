@@ -11,9 +11,12 @@ EditorBuildSettings:
   - enabled: 0
     path: Assets/Scenes/AR Template Scene.unity
     guid: 9bdb484d54f35ed44b16e77f8e1b094c
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/AR Portal Scene.unity
     guid: 17d07682fe895f84cb927eeb85b70481
+  - enabled: 1
+    path: Assets/Scenes/AR Pokemon Scene.unity
+    guid: 9475e29ce0b8aab40be68edfde22ced2
   m_configObjects:
     UnityEditor.XR.ARCore.ARCoreSettings: {fileID: 11400000, guid: 6ee72d15cf39dd748a13eac57397b9af,
       type: 2}
