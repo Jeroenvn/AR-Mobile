@@ -837,6 +837,7 @@ MonoBehaviour:
   RemoveSound: {fileID: 0}
   xrOrigin: {fileID: 2512387470422636669}
   graphicRaycaster: {fileID: 1043064142}
+  interactionCooldownSeconds: 0.5
 --- !u!82 &1441426490
 AudioSource:
   m_ObjectHideFlags: 0

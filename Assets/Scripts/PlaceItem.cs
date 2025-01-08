@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -15,6 +16,7 @@ public class PlaceItem : MonoBehaviour
     [SerializeField] private AudioClip RemoveSound;
     [SerializeField] private GameObject xrOrigin;
     [SerializeField] private GraphicRaycaster graphicRaycaster;
+    [SerializeField] private float interactionCooldownSeconds;
 
     private ARRaycastManager raycastManager;
     private ARPlaneManager planeManager;
@@ -23,6 +25,7 @@ public class PlaceItem : MonoBehaviour
     private AudioSource audioSource;
 
     private GameObject itemInstance = null;
+    private bool interactionOnCooldown = false;
 
     private void Start()
     {
@@ -59,6 +62,11 @@ public class PlaceItem : MonoBehaviour
 
     private void OnTouch(InputAction.CallbackContext context)
     {
+        if (interactionOnCooldown)
+        {
+            return;
+        }
+
         Vector2 touchScreenPosition = context.action.ReadValue<Vector2>();
 
         if (TouchedUI(touchScreenPosition))
@@ -102,6 +110,7 @@ public class PlaceItem : MonoBehaviour
             itemInstance = Instantiate(ItemPrefab, hit[0].pose.position, Quaternion.identity);
             audioSource.PlayOneShot(PlaceSound);
             SetPlanesActive(false);
+            StartCoroutine("InteractionCooldownRoutine");
         }
     }
 
@@ -110,11 +119,19 @@ public class PlaceItem : MonoBehaviour
         Destroy(itemInstance);
         itemInstance = null;
         SetPlanesActive(true);
+        StartCoroutine("InteractionCooldownRoutine");
     }
 
     private void SetPlanesActive(bool active)
     {
         planeManager.enabled = active;
         planeManager.SetTrackablesActive(active);
+    }
+
+    private IEnumerator InteractionCooldownRoutine()
+    {
+        interactionOnCooldown = true;
+        yield return new WaitForSeconds(interactionCooldownSeconds);
+        interactionOnCooldown = false;
     }
 }
